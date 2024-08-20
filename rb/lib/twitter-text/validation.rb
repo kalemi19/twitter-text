@@ -45,7 +45,7 @@ module Twitter
         scale = config.scale
         max_weighted_tweet_length = config.max_weighted_tweet_length
         scaled_max_weighted_tweet_length = max_weighted_tweet_length * scale
-        transformed_url_length = config.transformed_url_length * scale
+        transformed_url_length = config.transformed_url_length
         ranges = config.ranges
 
         url_entities = Twitter::TwitterText::Extractor.extract_urls_with_indices(normalized_text)
@@ -65,7 +65,7 @@ module Twitter
           url_entities.each do |url_entity|
             if url_entity[:indices].first == offset
               entity_length = url_entity[:indices].last - url_entity[:indices].first
-              weighted_count += transformed_url_length
+              weighted_count += (transformed_url_length.presence || entity_length) * scale
               offset += entity_length
               display_offset += entity_length
               if weighted_count <= scaled_max_weighted_tweet_length
