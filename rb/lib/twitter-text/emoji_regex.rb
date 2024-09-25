@@ -1,11 +1,6 @@
-#
-#  emoji_regex.rb
-#
-#  Copyright © 2018 Twitter. All rights reserved.
-#
-# DO NOT MODIFY THIS FILE -- it is generated for twitter-text automatically
-
 # encoding: utf-8
+
+require 'emoji_regex'
 
 module Twitter
   module TwitterText
