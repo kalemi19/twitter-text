@@ -67,7 +67,7 @@ module Twitter
           url_entities.each do |url_entity|
             if url_entity[:indices].first == offset
               entity_length = url_entity[:indices].last - url_entity[:indices].first
-              weighted_count += (transformed_url_length.presence || entity_length) * scale
+              weightedLength += (transformed_url_length.presence || (remove_url_scheme ? get_url_length(url_entity[:url]) : entity_length)) * scale;
               offset += entity_length
               display_offset += entity_length
               if weighted_count <= scaled_max_weighted_tweet_length
@@ -124,6 +124,33 @@ module Twitter
         permillage = scaled_weighted_length * 1000 / max_weighted_tweet_length
 
         return ParseResults.new(weighted_length: scaled_weighted_length, permillage: permillage, valid: is_valid, display_range_start: 0, display_range_end: (display_offset + normalized_text_offset - 1), valid_range_start: 0, valid_range_end: (valid_offset + normalized_text_offset - 1))
+      end
+
+      def get_url_length(url)
+        schema_regex = /^https?:\/\//i
+        
+        if url.match?(schema_regex)
+          path_length = 0
+    
+          url = url.sub(schema_regex, '')
+          first_slash_index = url.index('/')
+    
+          if first_slash_index
+            if first_slash_index == url.length - 1
+              domain_length = first_slash_index
+            else
+              domain_length = first_slash_index
+              path = url[first_slash_index, 16]
+              path_length = path.length
+            end
+          else
+            domain_length = url.length
+          end
+    
+          domain_length + path_length
+        else
+          url.length
+        end
       end
 
       def contains_invalid?(text)
