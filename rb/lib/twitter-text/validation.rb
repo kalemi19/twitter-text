@@ -67,7 +67,7 @@ module Twitter
           url_entities.each do |url_entity|
             if url_entity[:indices].first == offset
               entity_length = url_entity[:indices].last - url_entity[:indices].first
-              weightedLength += (transformed_url_length.presence || (remove_url_scheme ? get_url_length(url_entity[:url]) : entity_length)) * scale;
+              weighted_count += (transformed_url_length.presence || (remove_url_scheme ? get_url_length(url_entity[:url]) : entity_length)) * scale;
               offset += entity_length
               display_offset += entity_length
               if weighted_count <= scaled_max_weighted_tweet_length
