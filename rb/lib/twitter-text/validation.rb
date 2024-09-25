@@ -46,6 +46,8 @@ module Twitter
         max_weighted_tweet_length = config.max_weighted_tweet_length
         scaled_max_weighted_tweet_length = max_weighted_tweet_length * scale
         transformed_url_length = config.transformed_url_length
+        remove_url_scheme = config.remove_url_scheme
+        
         ranges = config.ranges
 
         url_entities = Twitter::TwitterText::Extractor.extract_urls_with_indices(normalized_text)
