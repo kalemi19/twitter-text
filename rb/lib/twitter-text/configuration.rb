@@ -20,7 +20,7 @@ module Twitter
       end
 
       attr_reader :version, :max_weighted_tweet_length, :scale
-      attr_reader :default_weight, :transformed_url_length, :ranges
+      attr_reader :default_weight, :transformed_url_length, :remove_url_scheme, :ranges
       attr_reader :emoji_parsing_enabled
 
       CONFIG_V1 = File.join(
