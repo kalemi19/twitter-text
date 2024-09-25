@@ -58,6 +58,7 @@ module Twitter
         @scale = config[:scale]
         @default_weight = config[:defaultWeight]
         @transformed_url_length = config[:transformedURLLength]
+        @remove_url_scheme = config[:removeURLScheme]
         @emoji_parsing_enabled = config[:emojiParsingEnabled]
         @ranges = config[:ranges].map { |range| Twitter::TwitterText::WeightedRange.new(range) } if config.key?(:ranges) && config[:ranges].is_a?(Array)
       end
