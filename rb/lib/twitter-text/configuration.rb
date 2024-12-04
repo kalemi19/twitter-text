@@ -20,7 +20,7 @@ module Twitter
       end
 
       attr_reader :version, :max_weighted_tweet_length, :scale
-      attr_reader :default_weight, :transformed_url_length, :remove_url_scheme, :ranges
+      attr_reader :default_weight, :transformed_url_length, :remove_url_scheme, :extract_urls_without_protocol, :ranges
       attr_reader :emoji_parsing_enabled
 
       CONFIG_V1 = File.join(
@@ -59,6 +59,7 @@ module Twitter
         @default_weight = config[:defaultWeight]
         @transformed_url_length = config[:transformedURLLength]
         @remove_url_scheme = config[:removeURLScheme]
+        @extract_urls_without_protocol = config[:extractUrlsWithoutProtocol]
         @emoji_parsing_enabled = config[:emojiParsingEnabled]
         @ranges = config[:ranges].map { |range| Twitter::TwitterText::WeightedRange.new(range) } if config.key?(:ranges) && config[:ranges].is_a?(Array)
       end
