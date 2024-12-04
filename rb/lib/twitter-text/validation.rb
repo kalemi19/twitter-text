@@ -47,10 +47,11 @@ module Twitter
         scaled_max_weighted_tweet_length = max_weighted_tweet_length * scale
         transformed_url_length = config.transformed_url_length
         remove_url_scheme = config.remove_url_scheme
+        extract_urls_without_protocol = config.extract_urls_without_protocol
         
         ranges = config.ranges
 
-        url_entities = Twitter::TwitterText::Extractor.extract_urls_with_indices(normalized_text)
+        url_entities = Twitter::TwitterText::Extractor.extract_urls_with_indices(normalized_text, { extract_urls_without_protocol: extract_urls_without_protocol })
         emoji_entities = config.emoji_parsing_enabled ? Twitter::TwitterText::Extractor.extract_emoji_with_indices(normalized_text) : []
 
         has_invalid_chars = false
