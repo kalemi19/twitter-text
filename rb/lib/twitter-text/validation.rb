@@ -51,7 +51,12 @@ module Twitter
         
         ranges = config.ranges
 
-        url_entities = Twitter::TwitterText::Extractor.extract_urls_with_indices(normalized_text, { extract_urls_without_protocol: extract_urls_without_protocol })
+        # Weird bug by Extractor
+        url_entities = if extract_urls_without_protocol == false
+                         Twitter::TwitterText::Extractor.extract_urls_with_indices(normalized_text, { extract_urls_without_protocol: false })
+                       else 
+                         Twitter::TwitterText::Extractor.extract_urls_with_indices(normalized_text)
+                       end
         emoji_entities = config.emoji_parsing_enabled ? Twitter::TwitterText::Extractor.extract_emoji_with_indices(normalized_text) : []
 
         has_invalid_chars = false
