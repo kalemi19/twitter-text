@@ -45,7 +45,7 @@ module Twitter
         scale = config.scale
         max_weighted_tweet_length = config.max_weighted_tweet_length
         scaled_max_weighted_tweet_length = max_weighted_tweet_length * scale
-        transformed_url_length = config.transformed_url_length
+        transformed_url_length = config.transformed_url_length&.*(scale)
         remove_url_scheme = config.remove_url_scheme
         extract_urls_without_protocol = config.extract_urls_without_protocol
         
@@ -68,7 +68,7 @@ module Twitter
           url_entities.each do |url_entity|
             if url_entity[:indices].first == offset
               entity_length = url_entity[:indices].last - url_entity[:indices].first
-              weighted_count += (transformed_url_length.presence || (remove_url_scheme ? get_url_length(url_entity[:url]) : entity_length)) * scale;
+              weighted_count += transformed_url_length.presence || (remove_url_scheme ? get_url_length(url_entity[:url]) : entity_length);
               offset += entity_length
               display_offset += entity_length
               if weighted_count <= scaled_max_weighted_tweet_length
